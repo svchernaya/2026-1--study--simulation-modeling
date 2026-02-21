@@ -1,0 +1,630 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+  ignorenonframetext,
+  aspectratio=169,
+  russian,
+]{beamer}
+\usepackage{pgfpages}
+\setbeamertemplate{caption}[numbered]
+\setbeamertemplate{caption label separator}{: }
+\setbeamercolor{caption name}{fg=normal text.fg}
+\beamertemplatenavigationsymbolshorizontal
+% Prevent slide breaks in the middle of a paragraph
+\widowpenalties 1 10000
+\raggedbottom
+\setbeamertemplate{part page}{
+  \centering
+  \begin{beamercolorbox}[sep=16pt,center]{part title}
+    \usebeamerfont{part title}\insertpart\par
+  \end{beamercolorbox}
+}
+\setbeamertemplate{section page}{
+  \centering
+  \begin{beamercolorbox}[sep=12pt,center]{section title}
+    \usebeamerfont{section title}\insertsection\par
+  \end{beamercolorbox}
+}
+\setbeamertemplate{subsection page}{
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center]{subsection title}
+    \usebeamerfont{subsection title}\insertsubsection\par
+  \end{beamercolorbox}
+}
+\AtBeginPart{
+  \frame{\partpage}
+}
+\AtBeginSection{
+  \ifbibliography
+  \else
+    \frame{\sectionpage}
+  \fi
+}
+\AtBeginSubsection{
+  \frame{\subsectionpage}
+}
+
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else  
+    % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage{xcolor}
+\newif\ifbibliography
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+\usepackage{caption}
+% Make caption package work with longtable
+\makeatletter
+\def\fnum@table{\tablename~\thetable}
+\makeatother
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+
+\IfFileExists{plex-otf.sty}{
+  %% Full TeXlive
+  % \usepackage[%
+  %   % math,
+  %   RM={Scale=0.94},SS={Scale=0.94},SScon={Scale=0.94},TT={Scale=MatchLowercase,FakeStretch=0.9},DefaultFeatures={Ligatures=Common}
+  % ]{plex-otf}
+}{
+  %% TinyTeX
+  \usepackage{libertine}
+}
+
+%%% Load theme
+% https://deic.uab.cat/~iblanes/beamer_gallery/
+\IfFileExists{beamerthemegotham.sty}{
+  %% Full TeXlive
+  \usetheme{gotham}
+  \gothamset{
+    numbering=totalpagenumber,
+    parttocframe default=off,
+    sectiontocframe default=off,
+    subsectiontocframe default=off,
+  }
+}{
+  %% TinyTeX
+  \usetheme{Madrid}
+}
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Содержание}
+\else
+  \newcommand\contentsname{Содержание}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{Список иллюстраций}
+\else
+  \newcommand\listfigurename{Список иллюстраций}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{Список таблиц}
+\else
+  \newcommand\listtablename{Список таблиц}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Рисунок}
+\else
+  \newcommand\figurename{Рисунок}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Таблица}
+\else
+  \newcommand\tablename{Таблица}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Список}
+\newcommand*\listoflistings{\listof{codelisting}{Листинги}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+
+\ifLuaTeX
+\usepackage[bidi=basic]{babel}
+\else
+\usepackage[bidi=default]{babel}
+\fi
+\babelprovide[main,import]{russian}
+\babelprovide[import]{english}
+% get rid of language-specific shorthands (see #6817):
+\let\LanguageShortHands\languageshorthands
+\def\languageshorthands#1{}
+\usepackage{csquotes}
+\usepackage{bookmark}
+
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Лабораторная работа №1},
+  pdfauthor={София Черная},
+  pdflang={ru-RU},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+
+\title{Лабораторная работа №1}
+\subtitle{Модель экспоненциального роста}
+\author{София Черная}
+\date{2026-02-21}
+
+\begin{document}
+\frame{\titlepage}
+
+\renewcommand*\contentsname{Содержание}
+\begin{frame}[allowframebreaks]
+  \frametitle{Содержание}
+  \setcounter{tocdepth}{1}
+  \tableofcontents
+\end{frame}
+
+\section{Информация}\label{ux438ux43dux444ux43eux440ux43cux430ux446ux438ux44f}
+
+\begin{frame}{Докладчик}
+\phantomsection\label{ux434ux43eux43aux43bux430ux434ux447ux438ux43a}
+\begin{columns}[c]
+\begin{column}{0.7\linewidth}
+\begin{itemize}[<+->]
+\tightlist
+\item
+  София Черная
+\item
+  Студентка
+\item
+  Российский университет дружбы народов
+\item
+  \href{mailto:1132236043@pfur.ru}{\nolinkurl{1132236043@pfur.ru}}
+\end{itemize}
+\end{column}
+
+\begin{column}{0.3\linewidth}
+\pandocbounded{\includegraphics[keepaspectratio]{image/me.jpeg}}
+\end{column}
+\end{columns}
+\end{frame}
+
+\section{Цель и
+задачи}\label{ux446ux435ux43bux44c-ux438-ux437ux430ux434ux430ux447ux438}
+
+\begin{frame}{Цель работы}
+\phantomsection\label{ux446ux435ux43bux44c-ux440ux430ux431ux43eux442ux44b}
+Изучение модели экспоненциального роста и освоение методов имитационного
+моделирования с использованием языка Julia и пакета DrWatson.
+\end{frame}
+
+\begin{frame}{Задачи}
+\phantomsection\label{ux437ux430ux434ux430ux447ux438}
+\begin{itemize}[<+->]
+\tightlist
+\item
+  Создать рабочее пространство для курса
+\item
+  Настроить Git и GitHub
+\item
+  Реализовать модель экспоненциального роста в базовом варианте
+\item
+  Провести параметрическое исследование модели
+\item
+  Оформить отчёт с использованием литературного программирования
+\end{itemize}
+\end{frame}
+
+\section{Теоретическая
+часть}\label{ux442ux435ux43eux440ux435ux442ux438ux447ux435ux441ux43aux430ux44f-ux447ux430ux441ux442ux44c}
+
+\begin{frame}{Модель экспоненциального роста}
+\phantomsection\label{ux43cux43eux434ux435ux43bux44c-ux44dux43aux441ux43fux43eux43dux435ux43dux446ux438ux430ux43bux44cux43dux43eux433ux43e-ux440ux43eux441ux442ux430}
+\begin{itemize}[<+->]
+\item
+  Описывается дифференциальным уравнением:
+
+  \[ \frac{du}{dt} = \alpha u \]
+\item
+  Решение: \(u(t) = u_0 e^{\alpha t}\)
+\item
+  Характеристики:
+
+  \begin{itemize}[<+->]
+  \tightlist
+  \item
+    Скорость роста пропорциональна текущему значению
+  \item
+    Время удвоения: \(T_2 = \ln(2)/\alpha\)
+  \item
+    Постоянно во времени
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\section{Выполнение
+работы}\label{ux432ux44bux43fux43eux43bux43dux435ux43dux438ux435-ux440ux430ux431ux43eux442ux44b}
+
+\begin{frame}{Настройка окружения}
+\phantomsection\label{ux43dux430ux441ux442ux440ux43eux439ux43aux430-ux43eux43aux440ux443ux436ux435ux43dux438ux44f}
+\begin{itemize}[<+->]
+\tightlist
+\item
+  Установлен Git и выполнена базовая настройка (рис. 1-3)
+\item
+  Сгенерирован SSH-ключ для GitHub (рис. 4-5)
+\item
+  Установлены Node.js, npm, pnpm и git-flow (рис. 6-11)
+\end{itemize}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.5\linewidth,height=\textheight,keepaspectratio]{image/1.png}
+
+}
+
+\caption{Установка Git}
+
+\end{figure}%
+\end{frame}
+
+\begin{frame}[fragile]{Создание репозитория}
+\phantomsection\label{ux441ux43eux437ux434ux430ux43dux438ux435-ux440ux435ux43fux43eux437ux438ux442ux43eux440ux438ux44f}
+\begin{itemize}[<+->]
+\tightlist
+\item
+  Репозиторий создан из шаблона
+  \texttt{course-directory-student-template} (рис. 12-14)
+\item
+  Клонирован на локальную машину (рис. 15)
+\item
+  Выполнена инициализация курса (рис. 16)
+\item
+  Изменения отправлены на GitHub (рис. 17-18)
+\end{itemize}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.5\linewidth,height=\textheight,keepaspectratio]{image/13.png}
+
+}
+
+\caption{Создание репозитория}
+
+\end{figure}%
+\end{frame}
+
+\begin{frame}[fragile]{Настройка Git Flow}
+\phantomsection\label{ux43dux430ux441ux442ux440ux43eux439ux43aux430-git-flow}
+\begin{itemize}[<+->]
+\tightlist
+\item
+  Инициализирован Git Flow с префиксом тегов \texttt{v} (рис. 19)
+\item
+  Созданы ветки master и develop (рис. 20)
+\item
+  Создан релиз версии 1.0.0 (рис. 21)
+\item
+  Установлен \texttt{standard-changelog} (рис. 22)
+\item
+  Создан CHANGELOG.md (рис. 23-25)
+\end{itemize}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.5\linewidth,height=\textheight,keepaspectratio]{image/19.png}
+
+}
+
+\caption{Инициализация Git Flow}
+
+\end{figure}%
+\end{frame}
+
+\begin{frame}[fragile]{Установка Julia и DrWatson}
+\phantomsection\label{ux443ux441ux442ux430ux43dux43eux432ux43aux430-julia-ux438-drwatson}
+\begin{itemize}[<+->]
+\tightlist
+\item
+  Установлена Julia через snap (рис. 26-27)
+\item
+  Установлен пакет DrWatson (рис. 28)
+\item
+  Создан проект \texttt{project} в папке \texttt{labs/lab01/} (рис. 29)
+\item
+  Установлены необходимые пакеты (рис. 30)
+\item
+  Создан тестовый скрипт (рис. 31-33)
+\end{itemize}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.5\linewidth,height=\textheight,keepaspectratio]{image/28.png}
+
+}
+
+\caption{Установка DrWatson}
+
+\end{figure}%
+\end{frame}
+
+\section{Реализация
+модели}\label{ux440ux435ux430ux43bux438ux437ux430ux446ux438ux44f-ux43cux43eux434ux435ux43bux438}
+
+\begin{frame}[fragile]{Базовый вариант}
+\phantomsection\label{ux431ux430ux437ux43eux432ux44bux439-ux432ux430ux440ux438ux430ux43dux442}
+\begin{itemize}[<+->]
+\tightlist
+\item
+  Создан скрипт \texttt{01\_exponential\_growth.jl} (рис. 34-35)
+\item
+  Реализовано решение уравнения \(du/dt = \alpha u\)
+\item
+  Параметры: \(u_0 = 1.0\), \(\alpha = 0.3\), \(t \in [0, 10]\)
+\end{itemize}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.5\linewidth,height=\textheight,keepaspectratio]{image/35.png}
+
+}
+
+\caption{Код базовой модели}
+
+\end{figure}%
+\end{frame}
+
+\begin{frame}{Результаты базового эксперимента}
+\phantomsection\label{ux440ux435ux437ux443ux43bux44cux442ux430ux442ux44b-ux431ux430ux437ux43eux432ux43eux433ux43e-ux44dux43aux441ux43fux435ux440ux438ux43cux435ux43dux442ux430}
+\begin{itemize}[<+->]
+\tightlist
+\item
+  Получены первые 5 строк результатов (рис. 36)
+\item
+  Аналитическое время удвоения: 2.31
+\item
+  Построен график экспоненциального роста (рис. 37)
+\end{itemize}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.6\linewidth,height=\textheight,keepaspectratio]{image/37.png}
+
+}
+
+\caption{График экспоненциального роста}
+
+\end{figure}%
+\end{frame}
+
+\begin{frame}{Литературный стиль}
+\phantomsection\label{ux43bux438ux442ux435ux440ux430ux442ux443ux440ux43dux44bux439-ux441ux442ux438ux43bux44c}
+\begin{itemize}[<+->]
+\tightlist
+\item
+  Скрипт преобразован в литературный стиль (рис. 38)
+\item
+  Добавлены комментарии с описанием модели
+\item
+  Запуск дал аналогичные результаты (рис. 39-40)
+\end{itemize}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.5\linewidth,height=\textheight,keepaspectratio]{image/38.png}
+
+}
+
+\caption{Код в литературном стиле}
+
+\end{figure}%
+\end{frame}
+
+\begin{frame}[fragile]{Генерация производных форматов}
+\phantomsection\label{ux433ux435ux43dux435ux440ux430ux446ux438ux44f-ux43fux440ux43eux438ux437ux432ux43eux434ux43dux44bux445-ux444ux43eux440ux43cux430ux442ux43eux432}
+\begin{itemize}[<+->]
+\tightlist
+\item
+  Создан скрипт \texttt{tangle.jl} (рис. 41-42)
+\item
+  Сгенерированы:
+
+  \begin{itemize}[<+->]
+  \tightlist
+  \item
+    Чистый код
+  \item
+    Jupyter Notebook
+  \item
+    Quarto-документация (рис. 43)
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\section{Параметрическое
+исследование}\label{ux43fux430ux440ux430ux43cux435ux442ux440ux438ux447ux435ux441ux43aux43eux435-ux438ux441ux441ux43bux435ux434ux43eux432ux430ux43dux438ux435}
+
+\begin{frame}[fragile]{Скрипт для параметрического исследования}
+\phantomsection\label{ux441ux43aux440ux438ux43fux442-ux434ux43bux44f-ux43fux430ux440ux430ux43cux435ux442ux440ux438ux447ux435ux441ux43aux43eux433ux43e-ux438ux441ux441ux43bux435ux434ux43eux432ux430ux43dux438ux44f}
+\begin{itemize}[<+->]
+\tightlist
+\item
+  Создан скрипт \texttt{02\_exponential\_growth.jl} (рис. 44)
+\item
+  Добавлена поддержка Julia в \texttt{\_quarto.yml} (рис. 45)
+\item
+  Исследуемые значения \(\alpha = 0.1, 0.3, 0.5, 0.8, 1.0\) (рис. 46)
+\end{itemize}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.5\linewidth,height=\textheight,keepaspectratio]{image/44.png}
+
+}
+
+\caption{Код параметрического исследования}
+
+\end{figure}%
+\end{frame}
+
+\begin{frame}[fragile]{Результаты сканирования}
+\phantomsection\label{ux440ux435ux437ux443ux43bux44cux442ux430ux442ux44b-ux441ux43aux430ux43dux438ux440ux43eux432ux430ux43dux438ux44f}
+\begin{itemize}[<+->]
+\tightlist
+\item
+  Процесс параметрического сканирования (рис. 47)
+\item
+  Сводная таблица результатов (рис. 48)
+\item
+  Генерация форматов через \texttt{tangle.jl} (рис. 49)
+\end{itemize}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.6\linewidth,height=\textheight,keepaspectratio]{image/48.png}
+
+}
+
+\caption{Сводная таблица результатов}
+
+\end{figure}%
+\end{frame}
+
+\section{Визуализация
+результатов}\label{ux432ux438ux437ux443ux430ux43bux438ux437ux430ux446ux438ux44f-ux440ux435ux437ux443ux43bux44cux442ux430ux442ux43eux432}
+
+\begin{frame}{Сравнение траекторий}
+\phantomsection\label{ux441ux440ux430ux432ux43dux435ux43dux438ux435-ux442ux440ux430ux435ux43aux442ux43eux440ux438ux439}
+\begin{itemize}[<+->]
+\tightlist
+\item
+  Построены графики для всех значений \(\alpha\) (рис. 57)
+\item
+  Чем больше \(\alpha\), тем быстрее рост популяции
+\end{itemize}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.6\linewidth,height=\textheight,keepaspectratio]{image/57.png}
+
+}
+
+\caption{Параметрическое исследование}
+
+\end{figure}%
+\end{frame}
+
+\begin{frame}{Зависимость времени удвоения}
+\phantomsection\label{ux437ux430ux432ux438ux441ux438ux43cux43eux441ux442ux44c-ux432ux440ux435ux43cux435ux43dux438-ux443ux434ux432ux43eux435ux43dux438ux44f}
+\begin{itemize}[<+->]
+\tightlist
+\item
+  Построена зависимость \(t_2 = \ln(2)/\alpha\) (рис. 58-59)
+\item
+  Численные решения совпадают с теоретической кривой
+\end{itemize}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.6\linewidth,height=\textheight,keepaspectratio]{image/58.png}
+
+}
+
+\caption{Зависимость времени удвоения от α}
+
+\end{figure}%
+\end{frame}
+
+\begin{frame}{Дополнительные графики}
+\phantomsection\label{ux434ux43eux43fux43eux43bux43dux438ux442ux435ux43bux44cux43dux44bux435-ux433ux440ux430ux444ux438ux43aux438}
+\begin{itemize}[<+->]
+\tightlist
+\item
+  Зависимость времени вычисления от \(\alpha\) (рис. 50)
+\item
+  Функция-обёртка в Jupyter (рис. 54-56)
+\end{itemize}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.5\linewidth,height=\textheight,keepaspectratio]{image/50.png}
+
+}
+
+\caption{Зависимость времени вычисления}
+
+\end{figure}%
+\end{frame}
+
+\section{Заключение}\label{ux437ux430ux43aux43bux44eux447ux435ux43dux438ux435}
+
+\begin{frame}{Выводы}
+\phantomsection\label{ux432ux44bux432ux43eux434ux44b}
+\begin{itemize}[<+->]
+\tightlist
+\item
+  Создано рабочее пространство для курса
+\item
+  Настроены Git, GitHub и Git Flow
+\item
+  Установлены Julia и необходимые пакеты
+\item
+  Реализована модель экспоненциального роста в базовом и параметрическом
+  вариантах
+\item
+  Код оформлен в литературном стиле
+\item
+  Проведён анализ зависимости времени удвоения от \(\alpha\)
+\item
+  Подтверждено совпадение численных результатов с теоретической кривой
+  \(t_2 = \ln(2)/\alpha\)
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Спасибо за внимание!}
+\phantomsection\label{ux441ux43fux430ux441ux438ux431ux43e-ux437ux430-ux432ux43dux438ux43cux430ux43dux438ux435}
+\end{frame}
+
+
+
+
+\end{document}
