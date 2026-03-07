@@ -1,0 +1,920 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+  12pt,
+  a4paper,
+  DIV=11,
+  numbers=noendperiod]{scrreprt}
+
+\usepackage{amsmath,amssymb}
+\usepackage{setspace}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else  
+    % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage{xcolor}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\setcounter{secnumdepth}{5}
+% Make \paragraph and \subparagraph free-standing
+\makeatletter
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}{
+    \@ifstar
+      \xxxParagraphStar
+      \xxxParagraphNoStar
+  }
+  \newcommand{\xxxParagraphStar}[1]{\oldparagraph*{#1}\mbox{}}
+  \newcommand{\xxxParagraphNoStar}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}{
+    \@ifstar
+      \xxxSubParagraphStar
+      \xxxSubParagraphNoStar
+  }
+  \newcommand{\xxxSubParagraphStar}[1]{\oldsubparagraph*{#1}\mbox{}}
+  \newcommand{\xxxSubParagraphNoStar}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+\makeatother
+
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[english,russian]{babel}
+\usepackage{fontspec}
+\setmainfont{Liberation Serif}
+\setsansfont{Liberation Sans}
+\setmonofont{Liberation Mono}
+\KOMAoption{captions}{tableheading}
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Содержание}
+\else
+  \newcommand\contentsname{Содержание}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{Список иллюстраций}
+\else
+  \newcommand\listfigurename{Список иллюстраций}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{Список таблиц}
+\else
+  \newcommand\listtablename{Список таблиц}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Рисунок}
+\else
+  \newcommand\figurename{Рисунок}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Таблица}
+\else
+  \newcommand\tablename{Таблица}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Список}
+\newcommand*\listoflistings{\listof{codelisting}{Листинги}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+
+\ifLuaTeX
+\usepackage[bidi=basic]{babel}
+\else
+\usepackage[bidi=default]{babel}
+\fi
+\babelprovide[main,import]{russian}
+\babelprovide[import]{english}
+% get rid of language-specific shorthands (see #6817):
+\let\LanguageShortHands\languageshorthands
+\def\languageshorthands#1{}
+\usepackage[style=gost-numeric,backend=biber,langhook=extras,autolang=other*]{biblatex}
+\usepackage{csquotes}
+\usepackage{bookmark}
+
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Лабораторная работа №2},
+  pdfauthor={София Черная},
+  pdflang={ru-RU},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+
+\title{Лабораторная работа №2}
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{Модель SIR и модель Лотки-Вольтерры}
+\author{София Черная}
+\date{}
+
+\begin{document}
+\maketitle
+
+\renewcommand*\contentsname{Содержание}
+{
+\setcounter{tocdepth}{1}
+\tableofcontents
+}
+\listoffigures
+\listoftables
+
+\setstretch{1.5}
+\chapter{Цель
+работы}\label{ux446ux435ux43bux44c-ux440ux430ux431ux43eux442ux44b}
+
+Изучение модели SIR (эпидемиологической модели) и модели Лотки-Вольтерры
+(системы «хищник-жертва»). Освоение методов имитационного моделирования
+систем дифференциальных уравнений с использованием языка Julia и пакета
+DrWatson.
+
+\chapter{Задание}\label{ux437ux430ux434ux430ux43dux438ux435}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Создать рабочее пространство для второй лабораторной работы.
+\item
+  Реализовать модель SIR в базовом варианте.
+\item
+  Преобразовать код в литературный стиль с помощью Literate.jl.
+\item
+  Сгенерировать из литературного кода чистый код, Jupyter Notebook и
+  документацию Quarto.
+\item
+  Провести параметрическое исследование модели SIR.
+\item
+  Реализовать модель Лотки-Вольтерры в базовом и параметрическом
+  вариантах.
+\item
+  Провести анализ результатов, оформить графики и включить их в отчёт.
+\end{enumerate}
+
+\chapter{Теоретическое
+введение}\label{ux442ux435ux43eux440ux435ux442ux438ux447ux435ux441ux43aux43eux435-ux432ux432ux435ux434ux435ux43dux438ux435}
+
+\section{Модель SIR}\label{ux43cux43eux434ux435ux43bux44c-sir}
+
+Модель SIR является классической математической моделью эпидемиологии,
+описывающей распространение инфекционного заболевания в замкнутой
+популяции.
+
+\subsection{Компартменты
+модели}\label{ux43aux43eux43cux43fux430ux440ux442ux43cux435ux43dux442ux44b-ux43cux43eux434ux435ux43bux438}
+
+Модель делит популяцию на три группы: - \textbf{S (Susceptible,
+Восприимчивые)} --- индивиды, которые могут заразиться. - \textbf{I
+(Infectious, Инфицированные)} --- индивиды, которые больны и могут
+передавать инфекцию. - \textbf{R (Recovered, Выздоровевшие)} ---
+индивиды, которые переболели и приобрели иммунитет (или умерли). Они
+больше не участвуют в распространении болезни.
+
+\subsection{Система дифференциальных
+уравнений}\label{ux441ux438ux441ux442ux435ux43cux430-ux434ux438ux444ux444ux435ux440ux435ux43dux446ux438ux430ux43bux44cux43dux44bux445-ux443ux440ux430ux432ux43dux435ux43dux438ux439}
+
+Динамика модели описывается следующей системой уравнений:
+
+\[
+\begin{cases}
+\dfrac{dS}{dt} = -\beta \dfrac{S I}{N} \\[1em]
+\dfrac{dI}{dt} = \beta \dfrac{S I}{N} - \gamma I \\[1em]
+\dfrac{dR}{dt} = \gamma I
+\end{cases}
+\]
+
+где: - ( N = S + I + R ) --- общая (постоянная) численность популяции; -
+( \beta ) --- коэффициент заражения (скорость передачи инфекции); - (
+\gamma ) --- коэффициент выздоровления (величина, обратная средней
+продолжительности болезни ( 1/\gamma )).
+
+\subsection{Ключевые
+показатели}\label{ux43aux43bux44eux447ux435ux432ux44bux435-ux43fux43eux43aux430ux437ux430ux442ux435ux43bux438}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Базовое репродуктивное число}: ( R\_0 = \dfrac{\beta}{\gamma}
+  ). Показывает, сколько в среднем человек заразит один инфицированный в
+  полностью восприимчивой популяции. При ( R\_0 \textgreater{} 1 )
+  эпидемия разрастается, при ( R\_0 \textless{} 1 ) --- затухает.
+\item
+  \textbf{Порог коллективного иммунитета}: ( 1 - \dfrac{1}{R_0} ). Доля
+  популяции, которая должна иметь иммунитет для предотвращения роста
+  эпидемии.
+\end{itemize}
+
+\section{Модель
+Лотки-Вольтерры}\label{ux43cux43eux434ux435ux43bux44c-ux43bux43eux442ux43aux438-ux432ux43eux43bux44cux442ux435ux440ux440ux44b}
+
+Модель Лотки-Вольтерры (или модель «хищник-жертва») описывает динамику
+взаимодействия двух биологических видов.
+
+\subsection{Система
+уравнений}\label{ux441ux438ux441ux442ux435ux43cux430-ux443ux440ux430ux432ux43dux435ux43dux438ux439}
+
+\[
+\begin{cases}
+\dfrac{dx}{dt} = \alpha x - \beta x y \\[1em]
+\dfrac{dy}{dt} = \delta x y - \gamma y
+\end{cases}
+\]
+
+где: - ( x ) --- численность популяции жертв (например, зайцев); - ( y )
+--- численность популяции хищников (например, лис); - ( \alpha ) ---
+коэффициент естественного прироста жертв; - ( \beta ) --- коэффициент
+смертности жертв в результате встреч с хищниками; - ( \delta ) ---
+коэффициент прироста хищников за счёт потребления жертв; - ( \gamma )
+--- коэффициент естественной смертности хищников.
+
+\subsection{Характеристики
+модели}\label{ux445ux430ux440ux430ux43aux442ux435ux440ux438ux441ux442ux438ux43aux438-ux43cux43eux434ux435ux43bux438}
+
+Система имеет две стационарные точки. Нетривиальная точка
+сосуществования видов: {[} x\^{}* = \frac{\gamma}{\delta},\quad y\^{}* =
+\frac{\alpha}{\beta} {]} Вокруг этой точки решения носят колебательный
+характер, причём пик численности хищников отстаёт от пика численности
+жертв.
+
+\chapter{Выполнение лабораторной
+работы}\label{ux432ux44bux43fux43eux43bux43dux435ux43dux438ux435-ux43bux430ux431ux43eux440ux430ux442ux43eux440ux43dux43eux439-ux440ux430ux431ux43eux442ux44b}
+
+Для выполнения лабораторной работы перехожу в уже созданный репозиторий
+labs/lab02.
+
+\section{Модель SIR}\label{ux43cux43eux434ux435ux43bux44c-sir-1}
+
+Создаю файл sir\_ode.jl (рис. Рисунок~\ref{fig-001}).
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/1.png}
+
+}
+
+\caption{\label{fig-001}Создание файла через команду touch}
+
+\end{figure}%
+
+Вставляю предложенный из методических материалов программный код в файл
+(рис. Рисунок~\ref{fig-002}). Код реализует функцию \texttt{sir\_ode!},
+которая описывает правые части системы дифференциальных уравнений, а
+также задаёт параметры модели и начальные условия.
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/2.png}
+
+}
+
+\caption{\label{fig-002}Программный код модели SIR}
+
+\end{figure}%
+
+Запускаю скрипт с помощью команды
+\texttt{julia\ -\/-project=.\ scripts/sir\_ode.jl} (рис.
+Рисунок~\ref{fig-003}).
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/3.png}
+
+}
+
+\caption{\label{fig-003}Запуск скрипта sir\_ode.jl}
+
+\end{figure}%
+
+Вывод в консоли параметров модели (рис. Рисунок~\ref{fig-004}). Здесь
+отображаются заданные значения коэффициентов ( \beta ) и ( \gamma ),
+рассчитанное базовое репродуктивное число ( R\_0 ), а также начальные
+условия.
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/4.png}
+
+}
+
+\caption{\label{fig-004}Параметры модели SIR, выведенные в консоль}
+
+\end{figure}%
+
+В результате выполнения скрипта были сгенерированы несколько графиков,
+позволяющих проанализировать динамику эпидемии.
+
+На рис. Рисунок~\ref{fig-005} представлен график «Динамика эффективного
+репродуктивного числа» ( R\_e(t) = R\_0 \cdot S(t)/N ). - При ( R\_e(t)
+\textgreater{} 1 ): количество новых зараженных растет, эпидемия
+развивается. - При ( R\_e(t) = 1 ): система находится в равновесии. Это
+момент пика эпидемии, когда число больных ( I(t) ) перестает расти и
+начинает падать. - При ( R\_e(t) \textless{} 1 ): количество новых
+зараженных падает, эпидемия затухает.
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/5.png}
+
+}
+
+\caption{\label{fig-005}Динамика эффективного репродуктивного числа (
+R\_e(t) )}
+
+\end{figure}%
+
+Следующим идет график «Динамика числа зараженных» (рис.
+Рисунок~\ref{fig-006}). На нем показано изменение числа инфицированных (
+I(t) ) во времени. Хорошо виден колоколообразный пик эпидемии.
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/6.png}
+
+}
+
+\caption{\label{fig-006}Динамика числа зараженных ( I(t) )}
+
+\end{figure}%
+
+График «Экспоненциальный рост (лог. шкала)» (рис. Рисунок~\ref{fig-007})
+показывает ту же кривую ( I(t) ), но в полулогарифмическом масштабе.
+Прямолинейный участок в начале графика подтверждает экспоненциальный
+характер роста числа зараженных на начальном этапе эпидемии, что
+соответствует теоретическим предсказаниям для модели SIR при ( R\_0
+\textgreater{} 1 ).
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/7.png}
+
+}
+
+\caption{\label{fig-007}Экспоненциальный рост числа зараженных в
+логарифмическом масштабе}
+
+\end{figure}%
+
+На графике «Модель SIR: динамика эпидемии» (рис. Рисунок~\ref{fig-008})
+представлена полная картина: показаны кривые для всех трех групп ---
+восприимчивых ( S(t) ), инфицированных ( I(t) ) и выздоровевших ( R(t)
+). Видно, как по мере развития эпидемии число восприимчивых падает, а
+число выздоровевших растет.
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/8.png}
+
+}
+
+\caption{\label{fig-008}Модель SIR: динамика всех трёх групп населения}
+
+\end{figure}%
+
+На рис. Рисунок~\ref{fig-009} показана компактная панель из шести
+графиков, объединяющая различные аспекты анализа модели SIR: динамику
+популяций, фазовый портрет, скорости изменения и спектральный анализ.
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/9.png}
+
+}
+
+\caption{\label{fig-009}Компактная панель графиков для анализа модели
+SIR}
+
+\end{figure}%
+
+График «Динамика эпидемии в процентах» (рис. Рисунок~\ref{fig-010})
+аналогичен графику на рис. Рисунок~\ref{fig-008}, но значения по оси Y
+представлены в процентах от общей численности популяции. Фиолетовая
+пунктирная линия обозначает «порог коллективного иммунитета» ( 1-1/R\_0
+). Когда доля восприимчивых ( S/N ) опускается ниже этого порога,
+эпидемия начинает затухать, так как каждый больной в среднем заражает
+меньше одного человека.
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/10.png}
+
+}
+
+\caption{\label{fig-010}Динамика эпидемии в процентах от общей
+численности популяции}
+
+\end{figure}%
+
+На фазовом портрете (рис. Рисунок~\ref{fig-011}) показана внутренняя
+структура процесса. По оси Ox --- число восприимчивых ( S ), по оси Oy
+--- число инфицированных ( I ). Траектория системы начинается в точке с
+максимальным ( S ) и движется к оси ( S ), где ( I = 0 ), что
+соответствует окончанию эпидемии.
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/11.png}
+
+}
+
+\caption{\label{fig-011}Фазовый портрет модели SIR}
+
+\end{figure}%
+
+После успешного выполнения базового скрипта, я преобразовал файл
+\texttt{sir\_ode.jl} в литературный код, добавив подробные комментарии и
+теоретические пояснения. Полученный файл назван
+\texttt{sir\_literode.jl} (рис. Рисунок~\ref{fig-012}). Такой подход
+соответствует методологии литературного программирования.
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/12.png}
+
+}
+
+\caption{\label{fig-012}Литературный код модели SIR в файле
+sir\_literode.jl}
+
+\end{figure}%
+
+Запускаю скрипт \texttt{sir\_literode.jl} для генерации производных
+форматов (рис. Рисунок~\ref{fig-013}). Для этого используется
+специальный скрипт \texttt{tangle.jl}.
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/13.png}
+
+}
+
+\caption{\label{fig-013}Запуск скрипта tangle.jl для генерации форматов
+из литературного кода}
+
+\end{figure}%
+
+При выполнении скрипта \texttt{tangle.jl} создались три файла:
+\texttt{sir\_literode.ipynb} (Jupyter Notebook),
+\texttt{sir\_literode.qmd} (документ Quarto) и \texttt{sir\_literode.jl}
+(чистый код). Запускаю файл \texttt{.ipynb} через терминал (рис.
+Рисунок~\ref{fig-014}).
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/14.png}
+
+}
+
+\caption{\label{fig-014}Запуск сгенерированного Jupyter Notebook}
+
+\end{figure}%
+
+Открываю файл в Jupyter Notebook --- всё работает корректно (рис.
+Рисунок~\ref{fig-015}). Можно выполнять ячейки по порядку и видеть
+результаты.
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/15.png}
+
+}
+
+\caption{\label{fig-015}Содержимое sir\_literode.ipynb в Jupyter
+Notebook}
+
+\end{figure}%
+
+Проверяю файл \texttt{sir\_literode.qmd} (рис. Рисунок~\ref{fig-016}).
+Он содержит как текст, так и исполняемые ячейки кода, что позволяет в
+дальнейшем интегрировать его в итоговый отчёт.
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/16.png}
+
+}
+
+\caption{\label{fig-016}Содержание файла sir\_literode.qmd}
+
+\end{figure}%
+
+Также просматриваю чистый код в \texttt{sir\_literode.jl} (рис.
+Рисунок~\ref{fig-017}). Он представляет собой извлеченный из
+литературного источника исполняемый код без комментариев.
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/17.png}
+
+}
+
+\caption{\label{fig-017}Содержание файла с чистым кодом
+sir\_literode.jl}
+
+\end{figure}%
+
+\section{Модель
+Лотки-Вольтерры}\label{ux43cux43eux434ux435ux43bux44c-ux43bux43eux442ux43aux438-ux432ux43eux43bux44cux442ux435ux440ux440ux44b-1}
+
+После завершения работы с моделью SIR, перехожу к реализации модели
+Лотки-Вольтерры.
+
+Создаю файл \texttt{lv\_ode.jl} (рис. Рисунок~\ref{fig-018}).
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/18.png}
+
+}
+
+\caption{\label{fig-018}Создание файла lv\_ode.jl для модели
+Лотки-Вольтерры}
+
+\end{figure}%
+
+Вставляю программный код, реализующий модель «хищник-жертва» (рис.
+Рисунок~\ref{fig-019}). Код содержит функцию \texttt{lotka\_volterra!},
+описывающую систему уравнений, а также задаёт классические параметры и
+начальные условия.
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/19.png}
+
+}
+
+\caption{\label{fig-019}Программный код модели Лотки-Вольтерры в файле
+lv\_ode.jl}
+
+\end{figure}%
+
+Запускаю скрипт \texttt{lv\_ode.jl} (рис. Рисунок~\ref{fig-020}).
+Система компилирует необходимые пакеты и начинает вычисления.
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/20.png}
+
+}
+
+\caption{\label{fig-020}Запуск скрипта lv\_ode.jl}
+
+\end{figure}%
+
+После запуска в консоль выводятся рассчитанные параметры модели,
+начальные условия, стационарные точки, а также результаты
+статистического и спектрального анализа (рис. Рисунок~\ref{fig-021}).
+Рассчитанная стационарная точка ( x\^{}* = 30.0, y\^{}* = 5.0 )
+совпадает с теоретическими значениями ( \gamma/\delta ) и (
+\alpha/\beta ). Период колебаний жертв составил около 4 единиц времени.
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/21.png}
+
+}
+
+\caption{\label{fig-021}Консольный вывод результатов моделирования
+Лотки-Вольтерры}
+
+\end{figure}%
+
+На рис. Рисунок~\ref{fig-022} представлен график производных популяций (
+dx/dt ) и ( dy/dt ). Он показывает скорость изменения численности
+каждого вида во времени.
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/22.png}
+
+}
+
+\caption{\label{fig-022}Производные популяций ( dx/dt ) и ( dy/dt )}
+
+\end{figure}%
+
+График «Модель Лотки-Вольтерры: Динамика популяций» (рис.
+Рисунок~\ref{fig-023}) является ключевым для анализа. На нём изображены
+колебания численности жертв (зелёная линия) и хищников (красная линия).
+Хорошо виден классический результат модели --- циклические колебания со
+сдвигом фаз: пик численности хищников наступает после пика численности
+жертв. Горизонтальными линиями отмечены стационарные уровни ( x\^{}* ) и
+( y\^{}* ).
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/23.png}
+
+}
+
+\caption{\label{fig-023}Динамика популяций в модели Лотки-Вольтерры}
+
+\end{figure}%
+
+На рис. Рисунок~\ref{fig-024} представлена таблица с результатами,
+которая, судя по всему, содержит данные для дальнейшего анализа или была
+сгенерирована в процессе отладки.
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/24.png}
+
+}
+
+\caption{\label{fig-024}Таблица с результатами моделирования}
+
+\end{figure}%
+
+Фазовый портрет системы (рис. Рисунок~\ref{fig-025}) представляет собой
+замкнутую траекторию (предельный цикл) на плоскости ( (x, y) ). Чёрная
+точка --- стационарное состояние ( (x\^{}\emph{, y\^{}}) ). Пунктирными
+линиями показаны изоклины --- линии, где производная соответствующей
+переменной равна нулю. Пересечение изоклин даёт стационарную точку.
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/25.png}
+
+}
+
+\caption{\label{fig-025}Фазовый портрет системы «хищник-жертва»}
+
+\end{figure}%
+
+График «Относительные темпы роста» (рис. Рисунок~\ref{fig-026})
+показывает скорость изменения популяций в процентах от их текущей
+численности ( (dx/dt)/x ) и ( (dy/dt)/y ). Это позволяет сравнивать
+динамику видов независимо от масштаба их популяций.
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/26.png}
+
+}
+
+\caption{\label{fig-026}Относительные темпы роста популяций}
+
+\end{figure}%
+
+Спектральный анализ (Фурье) колебаний представлен на рис.
+Рисунок~\ref{fig-027}. Пики на графике соответствуют основным частотам
+колебаний жертв и хищников. Доминирующая частота позволяет определить
+основной период колебаний системы.
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/27.png}
+
+}
+
+\caption{\label{fig-027}Спектральный анализ (Фурье) колебаний
+численности жертв и хищников}
+
+\end{figure}%
+
+После успешного выполнения базового скрипта, я приступил к созданию
+литературного кода для модели Лотки-Вольтерры. На рис.
+Рисунок~\ref{fig-028}, Рисунок~\ref{fig-029} и Рисунок~\ref{fig-030}
+представлены различные версии и фрагменты литературного кода
+\texttt{lv\_literate.jl}, где теория сопровождается исполняемыми
+блоками.
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/28.png}
+
+}
+
+\caption{\label{fig-028}Фрагмент литературного кода модели
+Лотки-Вольтерры (версия 1)}
+
+\end{figure}%
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/29.png}
+
+}
+
+\caption{\label{fig-029}Фрагмент литературного кода модели
+Лотки-Вольтерры (версия 2)}
+
+\end{figure}%
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/30.png}
+
+}
+
+\caption{\label{fig-030}Фрагмент литературного кода модели
+Лотки-Вольтерры (версия 3)}
+
+\end{figure}%
+
+С помощью скрипта \texttt{tangle.jl} я сгенерировал из литературного
+кода чистый код, Jupyter Notebook и Quarto-документацию (рис.
+Рисунок~\ref{fig-031}). Все форматы были успешно созданы.
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/31.png}
+
+}
+
+\caption{\label{fig-031}Генерация производных форматов для модели
+Лотки-Вольтерры}
+
+\end{figure}%
+
+Запускаю сгенерированный Jupyter Notebook \texttt{lv\_literate.ipynb}
+(рис. Рисунок~\ref{fig-032}). Сервер Jupyter запускается, и я могу
+открыть файл в браузере для интерактивной работы.
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/32.png}
+
+}
+
+\caption{\label{fig-032}Запуск Jupyter Notebook для модели
+Лотки-Вольтерры}
+
+\end{figure}%
+
+Файл Jupyter Notebook открыт и готов к выполнению (рис.
+Рисунок~\ref{fig-033}). Все ячейки с кодом и пояснениями корректно
+отображаются.
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/33.png}
+
+}
+
+\caption{\label{fig-033}Содержимое файла lv\_literate.ipynb в Jupyter
+Notebook}
+
+\end{figure}%
+
+\chapter{Выводы}\label{ux432ux44bux432ux43eux434ux44b}
+
+В ходе выполнения лабораторной работы были успешно реализованы две
+классические модели: эпидемиологическая модель SIR и экологическая
+модель Лотки-Вольтерры.
+
+Для модели SIR были получены и проанализированы графики динамики
+популяций, числа инфицированных, эффективного репродуктивного числа.
+Подтверждено, что пик эпидемии наступает при ( R\_e = 1 ), а порог
+коллективного иммунитета составляет ( 1-1/R\_0 ). Экспоненциальный рост
+на начальном этапе был верифицирован с помощью графика в логарифмическом
+масштабе.
+
+Для модели Лотки-Вольтерры получены циклические решения, соответствующие
+теоретическим представлениям. Рассчитанные стационарные точки совпали с
+ожидаемыми значениями ( x\^{}* = \gamma/\delta ) и ( y\^{}* =
+\alpha/\beta ). Фазовый портрет и спектральный анализ подтвердили
+колебательный характер системы и позволили определить период колебаний.
+
+Код для обеих моделей был оформлен в литературном стиле с использованием
+Literate.jl, что позволило сгенерировать из одного исходного файла
+чистый код, Jupyter Notebook и документ Quarto. Это демонстрирует
+преимущества подхода литературного программирования для воспроизводимых
+научных исследований.
+
+Все поставленные задачи выполнены, полученные результаты визуализированы
+и проанализированы.
+
+
+\printbibliography
+
+
+
+\end{document}

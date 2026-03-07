@@ -6,9 +6,9 @@ standalone: true
 self-contained: true
 
 ## Julia support
-# engine: julia
-# julia:
-#   exeflags: ["--project=../project"]
+engine: julia
+julia:
+  exeflags: ["--project=../project","--startup-file=no"]
 
 ## Generic options
 lang: ru-RU
@@ -16,15 +16,18 @@ number-sections: true
 toc: true
 toc-title: "Содержание"
 toc-depth: 2
+
 ## Crossref customization
 crossref:
   lof-title: "Список иллюстраций"
   lot-title: "Список таблиц"
   lol-title: "Листинги"
+
 ## Bibliography
-bibliography:
-  - bib/cite.bib
-csl: _resources/csl/gost-r-7-0-5-2008-numeric.csl
+# bibliography:
+#  - bib/cite.bib
+#csl: _resources/csl/gost-r-7-0-5-2008-numeric.csl
+
 ## Formats
 format:
   ### Docx output format
@@ -32,26 +35,27 @@ format:
     toc: true
     number-sections: true
     toc-depth: 2
+
   ### Pdf output format
   pdf:
-    # pdf-engine: xelatex
-    ### minted support
-    # filters:
-    #   - minted-quarto
+    pdf-engine: xelatex
     toc: true
     number-sections: true
     colorlinks: false
     toc-depth: 2
-    lof: true # List of figures
-    lot: true # List of tables
+    lof: true
+    lot: true
+    
     #### Document
     documentclass: scrreprt
     papersize: a4
     fontsize: 12pt
     linestretch: 1.5
+    
     #### Language
     babel-lang: russian
     babel-otherlangs: english
+    
     #### Biblatex
     cite-method: biblatex
     biblio-style: gost-numeric
@@ -59,8 +63,20 @@ format:
       - backend=biber
       - langhook=extras
       - autolang=other*
+    
     #### Misc options
     csquotes: true
     indent: true
-    include-in-header:
-      - file: _resources/tex/preamble.tex
+    include-in-header: 
+      - text: |
+          \usepackage[utf8]{inputenc}
+          \usepackage[T2A]{fontenc}
+          \usepackage[english,russian]{babel}
+          \usepackage{fontspec}
+          \setmainfont{Liberation Serif}
+          \setsansfont{Liberation Sans}
+          \setmonofont{Liberation Mono}
+    
+    engine: julia
+    julia:
+      exeflags: ["--project=../project"]

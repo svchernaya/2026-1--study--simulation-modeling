@@ -1,0 +1,936 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+  ignorenonframetext,
+  aspectratio=169,
+  russian,
+]{beamer}
+\usepackage{pgfpages}
+\setbeamertemplate{caption}[numbered]
+\setbeamertemplate{caption label separator}{: }
+\setbeamercolor{caption name}{fg=normal text.fg}
+\beamertemplatenavigationsymbolshorizontal
+% Prevent slide breaks in the middle of a paragraph
+\widowpenalties 1 10000
+\raggedbottom
+\setbeamertemplate{part page}{
+  \centering
+  \begin{beamercolorbox}[sep=16pt,center]{part title}
+    \usebeamerfont{part title}\insertpart\par
+  \end{beamercolorbox}
+}
+\setbeamertemplate{section page}{
+  \centering
+  \begin{beamercolorbox}[sep=12pt,center]{section title}
+    \usebeamerfont{section title}\insertsection\par
+  \end{beamercolorbox}
+}
+\setbeamertemplate{subsection page}{
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center]{subsection title}
+    \usebeamerfont{subsection title}\insertsubsection\par
+  \end{beamercolorbox}
+}
+\AtBeginPart{
+  \frame{\partpage}
+}
+\AtBeginSection{
+  \ifbibliography
+  \else
+    \frame{\sectionpage}
+  \fi
+}
+\AtBeginSubsection{
+  \frame{\subsectionpage}
+}
+
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\usetheme[]{Madrid}
+\ifPDFTeX\else  
+    % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage{xcolor}
+\newif\ifbibliography
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+\usepackage{caption}
+% Make caption package work with longtable
+\makeatletter
+\def\fnum@table{\tablename~\thetable}
+\makeatother
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+
+\usepackage{polyglossia}
+\setdefaultlanguage{russian}
+\setotherlanguage{english}
+\usepackage{fontspec}
+\setmainfont{FreeSerif}
+\usepackage{polyglossia}
+\setdefaultlanguage{russian}
+\setotherlanguage{english}
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Содержание}
+\else
+  \newcommand\contentsname{Содержание}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{Список иллюстраций}
+\else
+  \newcommand\listfigurename{Список иллюстраций}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{Список таблиц}
+\else
+  \newcommand\listtablename{Список таблиц}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Рисунок}
+\else
+  \newcommand\figurename{Рисунок}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Таблица}
+\else
+  \newcommand\tablename{Таблица}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Список}
+\newcommand*\listoflistings{\listof{codelisting}{Листинги}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+
+\ifLuaTeX
+\usepackage[bidi=basic]{babel}
+\else
+\usepackage[bidi=default]{babel}
+\fi
+\babelprovide[main,import]{russian}
+% get rid of language-specific shorthands (see #6817):
+\let\LanguageShortHands\languageshorthands
+\def\languageshorthands#1{}
+\usepackage{csquotes}
+\usepackage{bookmark}
+
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Лабораторная работа №2},
+  pdfauthor={София Черная},
+  pdflang={ru-RU},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+
+\title{Лабораторная работа №2}
+\subtitle{Модель SIR и модель Лотки-Вольтерры}
+\author{София Черная}
+\date{2026-03-07}
+
+\begin{document}
+\frame{\titlepage}
+
+\renewcommand*\contentsname{Содержание}
+\begin{frame}[allowframebreaks]
+  \frametitle{Содержание}
+  \setcounter{tocdepth}{1}
+  \tableofcontents
+\end{frame}
+
+\section{Информация}\label{ux438ux43dux444ux43eux440ux43cux430ux446ux438ux44f}
+
+\begin{frame}{Докладчик}
+\phantomsection\label{ux434ux43eux43aux43bux430ux434ux447ux438ux43a}
+\begin{columns}[c]
+\begin{column}{0.7\linewidth}
+\begin{itemize}[<+->]
+\tightlist
+\item
+  София Черная
+\item
+  Студентка
+\item
+  Российский университет дружбы народов
+\item
+  \href{mailto:1132236043@pfur.ru}{\nolinkurl{1132236043@pfur.ru}}
+\end{itemize}
+\end{column}
+
+\begin{column}{0.3\linewidth}
+\end{column}
+\end{columns}
+\end{frame}
+
+\section{Вводная
+часть}\label{ux432ux432ux43eux434ux43dux430ux44f-ux447ux430ux441ux442ux44c}
+
+\begin{frame}{Актуальность}
+\phantomsection\label{ux430ux43aux442ux443ux430ux43bux44cux43dux43eux441ux442ux44c}
+\begin{itemize}[<+->]
+\tightlist
+\item
+  Моделирование эпидемий позволяет прогнозировать развитие заболеваний
+\item
+  Модели «хищник-жертва» важны для понимания экологических систем
+\item
+  Имитационное моделирование --- современный инструмент исследования
+\item
+  Julia и DrWatson --- современный стек для воспроизводимых исследований
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Цели и задачи}
+\phantomsection\label{ux446ux435ux43bux438-ux438-ux437ux430ux434ux430ux447ux438}
+\begin{itemize}[<+->]
+\tightlist
+\item
+  Реализовать модель SIR в базовом варианте
+\item
+  Реализовать модель Лотки-Вольтерры
+\item
+  Преобразовать код в литературный стиль с помощью Literate.jl
+\item
+  Сгенерировать Jupyter Notebook и документацию Quarto
+\item
+  Провести параметрические исследования моделей
+\item
+  Проанализировать результаты и визуализировать графики
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Материалы и методы}
+\phantomsection\label{ux43cux430ux442ux435ux440ux438ux430ux43bux44b-ux438-ux43cux435ux442ux43eux434ux44b}
+\begin{itemize}[<+->]
+\tightlist
+\item
+  Язык программирования Julia
+\item
+  Пакет DifferentialEquations.jl для решения ОДУ
+\item
+  Пакет DrWatson.jl для управления проектами
+\item
+  Пакет Literate.jl для литературного программирования
+\item
+  Пакет Plots.jl для визуализации
+\item
+  Пакет DataFrames.jl для анализа данных
+\end{itemize}
+\end{frame}
+
+\section{Теоретическое
+введение}\label{ux442ux435ux43eux440ux435ux442ux438ux447ux435ux441ux43aux43eux435-ux432ux432ux435ux434ux435ux43dux438ux435}
+
+\begin{frame}{Модель SIR}
+\phantomsection\label{ux43cux43eux434ux435ux43bux44c-sir}
+\begin{itemize}[<+->]
+\tightlist
+\item
+  Классическая эпидемиологическая модель
+\item
+  Популяция делится на три группы:
+
+  \begin{itemize}[<+->]
+  \tightlist
+  \item
+    \textbf{S (Susceptible)} --- восприимчивые
+  \item
+    \textbf{I (Infectious)} --- инфицированные
+  \item
+    \textbf{R (Recovered)} --- выздоровевшие
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Система уравнений SIR}
+\phantomsection\label{ux441ux438ux441ux442ux435ux43cux430-ux443ux440ux430ux432ux43dux435ux43dux438ux439-sir}
+\[
+\begin{cases}
+\dfrac{dS}{dt} = -\beta \dfrac{S I}{N} \\[1em]
+\dfrac{dI}{dt} = \beta \dfrac{S I}{N} - \gamma I \\[1em]
+\dfrac{dR}{dt} = \gamma I
+\end{cases}
+\]
+
+где: - ( N = S + I + R ) --- общая численность популяции - ( \beta ) ---
+коэффициент заражения - ( \gamma ) --- коэффициент выздоровления
+\end{frame}
+
+\begin{frame}{Ключевые показатели}
+\phantomsection\label{ux43aux43bux44eux447ux435ux432ux44bux435-ux43fux43eux43aux430ux437ux430ux442ux435ux43bux438}
+\begin{itemize}[<+->]
+\tightlist
+\item
+  \textbf{Базовое репродуктивное число}: ( R\_0 = \dfrac{\beta}{\gamma}
+  )
+
+  \begin{itemize}[<+->]
+  \tightlist
+  \item
+    ( R\_0 \textgreater{} 1 ) --- эпидемия разрастается
+  \item
+    ( R\_0 \textless{} 1 ) --- эпидемия затухает
+  \end{itemize}
+\item
+  \textbf{Порог коллективного иммунитета}: ( 1 - \dfrac{1}{R_0} )
+\item
+  \textbf{Эффективное репродуктивное число}: ( R\_e(t) = R\_0
+  \cdot \frac{S(t)}{N} )
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Модель Лотки-Вольтерры}
+\phantomsection\label{ux43cux43eux434ux435ux43bux44c-ux43bux43eux442ux43aux438-ux432ux43eux43bux44cux442ux435ux440ux440ux44b}
+\begin{itemize}[<+->]
+\tightlist
+\item
+  Модель «хищник-жертва»
+\item
+  Описывает взаимодействие двух биологических видов
+\end{itemize}
+
+\begin{block}{Система уравнений}
+\phantomsection\label{ux441ux438ux441ux442ux435ux43cux430-ux443ux440ux430ux432ux43dux435ux43dux438ux439}
+\[
+\begin{cases}
+\dfrac{dx}{dt} = \alpha x - \beta x y \\[1em]
+\dfrac{dy}{dt} = \delta x y - \gamma y
+\end{cases}
+\]
+\end{block}
+\end{frame}
+
+\begin{frame}{Параметры модели Лотки-Вольтерры}
+\phantomsection\label{ux43fux430ux440ux430ux43cux435ux442ux440ux44b-ux43cux43eux434ux435ux43bux438-ux43bux43eux442ux43aux438-ux432ux43eux43bux44cux442ux435ux440ux440ux44b}
+\begin{itemize}[<+->]
+\tightlist
+\item
+  ( x ) --- численность жертв
+\item
+  ( y ) --- численность хищников
+\item
+  ( \alpha ) --- прирост жертв
+\item
+  ( \beta ) --- смертность жертв от хищников
+\item
+  ( \delta ) --- прирост хищников от жертв
+\item
+  ( \gamma ) --- смертность хищников
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Стационарная точка}
+\phantomsection\label{ux441ux442ux430ux446ux438ux43eux43dux430ux440ux43dux430ux44f-ux442ux43eux447ux43aux430}
+\begin{itemize}[<+->]
+\tightlist
+\item
+  Нетривиальная точка сосуществования видов:
+\end{itemize}
+
+{[} x\^{}* = \frac{\gamma}{\delta},\quad y\^{}* = \frac{\alpha}{\beta}
+{]}
+
+\begin{itemize}[<+->]
+\tightlist
+\item
+  Вокруг этой точки решения носят колебательный характер
+\item
+  Пик численности хищников отстаёт от пика численности жертв
+\end{itemize}
+\end{frame}
+
+\section{Выполнение лабораторной
+работы}\label{ux432ux44bux43fux43eux43bux43dux435ux43dux438ux435-ux43bux430ux431ux43eux440ux430ux442ux43eux440ux43dux43eux439-ux440ux430ux431ux43eux442ux44b}
+
+\begin{frame}{Модель SIR}
+\phantomsection\label{ux43cux43eux434ux435ux43bux44c-sir-1}
+\begin{block}{Создание файла}
+\phantomsection\label{ux441ux43eux437ux434ux430ux43dux438ux435-ux444ux430ux439ux43bux430}
+\begin{figure}[H]
+
+{\centering \includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/1.png}
+
+}
+
+\caption{Создание файла через команду touch}
+
+\end{figure}%
+\end{block}
+
+\begin{block}{Программный код модели SIR}
+\phantomsection\label{ux43fux440ux43eux433ux440ux430ux43cux43cux43dux44bux439-ux43aux43eux434-ux43cux43eux434ux435ux43bux438-sir}
+\begin{figure}[H]
+
+{\centering \includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/2.png}
+
+}
+
+\caption{Программный код модели SIR}
+
+\end{figure}%
+\end{block}
+
+\begin{block}{Запуск скрипта}
+\phantomsection\label{ux437ux430ux43fux443ux441ux43a-ux441ux43aux440ux438ux43fux442ux430}
+\begin{figure}[H]
+
+{\centering \includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/3.png}
+
+}
+
+\caption{Запуск скрипта sir\_ode.jl}
+
+\end{figure}%
+\end{block}
+
+\begin{block}{Параметры модели}
+\phantomsection\label{ux43fux430ux440ux430ux43cux435ux442ux440ux44b-ux43cux43eux434ux435ux43bux438}
+\begin{figure}[H]
+
+{\centering \includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/4.png}
+
+}
+
+\caption{Параметры модели SIR, выведенные в консоль}
+
+\end{figure}%
+\end{block}
+\end{frame}
+
+\begin{frame}{Результаты модели SIR}
+\phantomsection\label{ux440ux435ux437ux443ux43bux44cux442ux430ux442ux44b-ux43cux43eux434ux435ux43bux438-sir}
+\begin{block}{Динамика эффективного репродуктивного числа}
+\phantomsection\label{ux434ux438ux43dux430ux43cux438ux43aux430-ux44dux444ux444ux435ux43aux442ux438ux432ux43dux43eux433ux43e-ux440ux435ux43fux440ux43eux434ux443ux43aux442ux438ux432ux43dux43eux433ux43e-ux447ux438ux441ux43bux430}
+\begin{figure}[H]
+
+{\centering \includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/5.png}
+
+}
+
+\caption{Динамика эффективного репродуктивного числа ( R\_e(t) )}
+
+\end{figure}%
+\end{block}
+
+\begin{block}{Динамика числа зараженных}
+\phantomsection\label{ux434ux438ux43dux430ux43cux438ux43aux430-ux447ux438ux441ux43bux430-ux437ux430ux440ux430ux436ux435ux43dux43dux44bux445}
+\begin{figure}[H]
+
+{\centering \includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/6.png}
+
+}
+
+\caption{Динамика числа зараженных ( I(t) )}
+
+\end{figure}%
+\end{block}
+
+\begin{block}{Экспоненциальный рост}
+\phantomsection\label{ux44dux43aux441ux43fux43eux43dux435ux43dux446ux438ux430ux43bux44cux43dux44bux439-ux440ux43eux441ux442}
+\begin{figure}[H]
+
+{\centering \includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/7.png}
+
+}
+
+\caption{Экспоненциальный рост числа зараженных в логарифмическом
+масштабе}
+
+\end{figure}%
+\end{block}
+
+\begin{block}{Динамика всех групп}
+\phantomsection\label{ux434ux438ux43dux430ux43cux438ux43aux430-ux432ux441ux435ux445-ux433ux440ux443ux43fux43f}
+\begin{figure}[H]
+
+{\centering \includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/8.png}
+
+}
+
+\caption{Модель SIR: динамика всех трёх групп населения}
+
+\end{figure}%
+\end{block}
+
+\begin{block}{Компактная панель графиков}
+\phantomsection\label{ux43aux43eux43cux43fux430ux43aux442ux43dux430ux44f-ux43fux430ux43dux435ux43bux44c-ux433ux440ux430ux444ux438ux43aux43eux432}
+\begin{figure}[H]
+
+{\centering \includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/9.png}
+
+}
+
+\caption{Компактная панель графиков для анализа модели SIR}
+
+\end{figure}%
+\end{block}
+
+\begin{block}{Динамика в процентах}
+\phantomsection\label{ux434ux438ux43dux430ux43cux438ux43aux430-ux432-ux43fux440ux43eux446ux435ux43dux442ux430ux445}
+\begin{figure}[H]
+
+{\centering \includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/10.png}
+
+}
+
+\caption{Динамика эпидемии в процентах от общей численности популяции}
+
+\end{figure}%
+\end{block}
+
+\begin{block}{Фазовый портрет}
+\phantomsection\label{ux444ux430ux437ux43eux432ux44bux439-ux43fux43eux440ux442ux440ux435ux442}
+\begin{figure}[H]
+
+{\centering \includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/11.png}
+
+}
+
+\caption{Фазовый портрет модели SIR}
+
+\end{figure}%
+\end{block}
+\end{frame}
+
+\begin{frame}{Литературное программирование SIR}
+\phantomsection\label{ux43bux438ux442ux435ux440ux430ux442ux443ux440ux43dux43eux435-ux43fux440ux43eux433ux440ux430ux43cux43cux438ux440ux43eux432ux430ux43dux438ux435-sir}
+\begin{block}{Литературный код}
+\phantomsection\label{ux43bux438ux442ux435ux440ux430ux442ux443ux440ux43dux44bux439-ux43aux43eux434}
+\begin{figure}[H]
+
+{\centering \includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/12.png}
+
+}
+
+\caption{Литературный код модели SIR в файле sir\_literode.jl}
+
+\end{figure}%
+\end{block}
+
+\begin{block}{Генерация форматов}
+\phantomsection\label{ux433ux435ux43dux435ux440ux430ux446ux438ux44f-ux444ux43eux440ux43cux430ux442ux43eux432}
+\begin{figure}[H]
+
+{\centering \includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/13.png}
+
+}
+
+\caption{Запуск скрипта tangle.jl для генерации форматов}
+
+\end{figure}%
+\end{block}
+
+\begin{block}{Jupyter Notebook}
+\phantomsection\label{jupyter-notebook}
+\begin{figure}[H]
+
+{\centering \includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/14.png}
+
+}
+
+\caption{Запуск сгенерированного Jupyter Notebook}
+
+\end{figure}%%
+\begin{figure}[H]
+
+{\centering \includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/15.png}
+
+}
+
+\caption{Содержимое sir\_literode.ipynb в Jupyter Notebook}
+
+\end{figure}%
+\end{block}
+
+\begin{block}{Quarto-документация}
+\phantomsection\label{quarto-ux434ux43eux43aux443ux43cux435ux43dux442ux430ux446ux438ux44f}
+\begin{figure}[H]
+
+{\centering \includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/16.png}
+
+}
+
+\caption{Содержание файла sir\_literode.qmd}
+
+\end{figure}%
+\end{block}
+
+\begin{block}{Чистый код}
+\phantomsection\label{ux447ux438ux441ux442ux44bux439-ux43aux43eux434}
+\begin{figure}[H]
+
+{\centering \includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/17.png}
+
+}
+
+\caption{Содержание файла с чистым кодом sir\_literode.jl}
+
+\end{figure}%
+\end{block}
+\end{frame}
+
+\begin{frame}{Модель Лотки-Вольтерры}
+\phantomsection\label{ux43cux43eux434ux435ux43bux44c-ux43bux43eux442ux43aux438-ux432ux43eux43bux44cux442ux435ux440ux440ux44b-1}
+\begin{block}{Создание файла}
+\phantomsection\label{ux441ux43eux437ux434ux430ux43dux438ux435-ux444ux430ux439ux43bux430-1}
+\begin{figure}[H]
+
+{\centering \includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/18.png}
+
+}
+
+\caption{Создание файла lv\_ode.jl}
+
+\end{figure}%
+\end{block}
+
+\begin{block}{Программный код}
+\phantomsection\label{ux43fux440ux43eux433ux440ux430ux43cux43cux43dux44bux439-ux43aux43eux434}
+\begin{figure}[H]
+
+{\centering \includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/19.png}
+
+}
+
+\caption{Программный код модели Лотки-Вольтерры}
+
+\end{figure}%
+\end{block}
+
+\begin{block}{Запуск скрипта}
+\phantomsection\label{ux437ux430ux43fux443ux441ux43a-ux441ux43aux440ux438ux43fux442ux430-1}
+\begin{figure}[H]
+
+{\centering \includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/20.png}
+
+}
+
+\caption{Запуск скрипта lv\_ode.jl}
+
+\end{figure}%
+\end{block}
+
+\begin{block}{Результаты в консоли}
+\phantomsection\label{ux440ux435ux437ux443ux43bux44cux442ux430ux442ux44b-ux432-ux43aux43eux43dux441ux43eux43bux438}
+\begin{figure}[H]
+
+{\centering \includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/21.png}
+
+}
+
+\caption{Консольный вывод результатов моделирования}
+
+\end{figure}%
+\end{block}
+\end{frame}
+
+\begin{frame}{Результаты модели Лотки-Вольтерры}
+\phantomsection\label{ux440ux435ux437ux443ux43bux44cux442ux430ux442ux44b-ux43cux43eux434ux435ux43bux438-ux43bux43eux442ux43aux438-ux432ux43eux43bux44cux442ux435ux440ux440ux44b}
+\begin{block}{Производные популяций}
+\phantomsection\label{ux43fux440ux43eux438ux437ux432ux43eux434ux43dux44bux435-ux43fux43eux43fux443ux43bux44fux446ux438ux439}
+\begin{figure}[H]
+
+{\centering \includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/22.png}
+
+}
+
+\caption{Производные популяций ( dx/dt ) и ( dy/dt )}
+
+\end{figure}%
+\end{block}
+
+\begin{block}{Динамика популяций}
+\phantomsection\label{ux434ux438ux43dux430ux43cux438ux43aux430-ux43fux43eux43fux443ux43bux44fux446ux438ux439}
+\begin{figure}[H]
+
+{\centering \includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/23.png}
+
+}
+
+\caption{Динамика популяций в модели Лотки-Вольтерры}
+
+\end{figure}%
+\end{block}
+
+\begin{block}{Таблица результатов}
+\phantomsection\label{ux442ux430ux431ux43bux438ux446ux430-ux440ux435ux437ux443ux43bux44cux442ux430ux442ux43eux432}
+\begin{figure}[H]
+
+{\centering \includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/24.png}
+
+}
+
+\caption{Таблица с результатами моделирования}
+
+\end{figure}%
+\end{block}
+
+\begin{block}{Фазовый портрет}
+\phantomsection\label{ux444ux430ux437ux43eux432ux44bux439-ux43fux43eux440ux442ux440ux435ux442-1}
+\begin{figure}[H]
+
+{\centering \includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/25.png}
+
+}
+
+\caption{Фазовый портрет системы «хищник-жертва»}
+
+\end{figure}%
+\end{block}
+
+\begin{block}{Относительные темпы роста}
+\phantomsection\label{ux43eux442ux43dux43eux441ux438ux442ux435ux43bux44cux43dux44bux435-ux442ux435ux43cux43fux44b-ux440ux43eux441ux442ux430}
+\begin{figure}[H]
+
+{\centering \includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/26.png}
+
+}
+
+\caption{Относительные темпы роста популяций}
+
+\end{figure}%
+\end{block}
+
+\begin{block}{Спектральный анализ}
+\phantomsection\label{ux441ux43fux435ux43aux442ux440ux430ux43bux44cux43dux44bux439-ux430ux43dux430ux43bux438ux437}
+\begin{figure}[H]
+
+{\centering \includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/27.png}
+
+}
+
+\caption{Спектральный анализ (Фурье) колебаний}
+
+\end{figure}%
+\end{block}
+\end{frame}
+
+\begin{frame}{Литературное программирование Лотки-Вольтерры}
+\phantomsection\label{ux43bux438ux442ux435ux440ux430ux442ux443ux440ux43dux43eux435-ux43fux440ux43eux433ux440ux430ux43cux43cux438ux440ux43eux432ux430ux43dux438ux435-ux43bux43eux442ux43aux438-ux432ux43eux43bux44cux442ux435ux440ux440ux44b}
+\begin{block}{Литературный код (часть 1)}
+\phantomsection\label{ux43bux438ux442ux435ux440ux430ux442ux443ux440ux43dux44bux439-ux43aux43eux434-ux447ux430ux441ux442ux44c-1}
+\begin{figure}[H]
+
+{\centering \includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/28.png}
+
+}
+
+\caption{Фрагмент литературного кода (версия 1)}
+
+\end{figure}%
+\end{block}
+
+\begin{block}{Литературный код (часть 2)}
+\phantomsection\label{ux43bux438ux442ux435ux440ux430ux442ux443ux440ux43dux44bux439-ux43aux43eux434-ux447ux430ux441ux442ux44c-2}
+\begin{figure}[H]
+
+{\centering \includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/29.png}
+
+}
+
+\caption{Фрагмент литературного кода (версия 2)}
+
+\end{figure}%
+\end{block}
+
+\begin{block}{Литературный код (часть 3)}
+\phantomsection\label{ux43bux438ux442ux435ux440ux430ux442ux443ux440ux43dux44bux439-ux43aux43eux434-ux447ux430ux441ux442ux44c-3}
+\begin{figure}[H]
+
+{\centering \includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/30.png}
+
+}
+
+\caption{Фрагмент литературного кода (версия 3)}
+
+\end{figure}%
+\end{block}
+
+\begin{block}{Генерация форматов}
+\phantomsection\label{ux433ux435ux43dux435ux440ux430ux446ux438ux44f-ux444ux43eux440ux43cux430ux442ux43eux432-1}
+\begin{figure}[H]
+
+{\centering \includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/31.png}
+
+}
+
+\caption{Генерация производных форматов}
+
+\end{figure}%
+\end{block}
+
+\begin{block}{Jupyter Notebook}
+\phantomsection\label{jupyter-notebook-1}
+\begin{figure}[H]
+
+{\centering \includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/32.png}
+
+}
+
+\caption{Запуск Jupyter Notebook для модели Лотки-Вольтерры}
+
+\end{figure}%%
+\begin{figure}[H]
+
+{\centering \includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/33.png}
+
+}
+
+\caption{Содержимое файла lv\_literate.ipynb}
+
+\end{figure}%
+\end{block}
+\end{frame}
+
+\section{Результаты}\label{ux440ux435ux437ux443ux43bux44cux442ux430ux442ux44b}
+
+\begin{frame}{Результаты модели SIR}
+\phantomsection\label{ux440ux435ux437ux443ux43bux44cux442ux430ux442ux44b-ux43cux43eux434ux435ux43bux438-sir-1}
+\begin{itemize}[<+->]
+\tightlist
+\item
+  Подтверждён экспоненциальный рост на начальном этапе
+\item
+  Пик эпидемии наступает при ( R\_e = 1 )
+\item
+  Порог коллективного иммунитета: ( 1-1/R\_0 )
+\item
+  Получены графики динамики всех групп населения
+\item
+  Построен фазовый портрет системы
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Результаты модели Лотки-Вольтерры}
+\phantomsection\label{ux440ux435ux437ux443ux43bux44cux442ux430ux442ux44b-ux43cux43eux434ux435ux43bux438-ux43bux43eux442ux43aux438-ux432ux43eux43bux44cux442ux435ux440ux440ux44b-1}
+\begin{itemize}[<+->]
+\tightlist
+\item
+  Получены циклические решения
+\item
+  Стационарные точки совпадают с теорией: ( x\^{}* = \gamma/\delta,
+  y\^{}* = \alpha/\beta )
+\item
+  Период колебаний: около 4 единиц времени
+\item
+  Подтверждён сдвиг фаз между популяциями
+\item
+  Проведён спектральный анализ колебаний
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Литературное программирование}
+\phantomsection\label{ux43bux438ux442ux435ux440ux430ux442ux443ux440ux43dux43eux435-ux43fux440ux43eux433ux440ux430ux43cux43cux438ux440ux43eux432ux430ux43dux438ux435}
+\begin{itemize}[<+->]
+\tightlist
+\item
+  Код для обеих моделей оформлен в литературном стиле с использованием
+  Literate.jl
+\item
+  Сгенерированы:
+
+  \begin{itemize}[<+->]
+  \tightlist
+  \item
+    Чистый код (.jl)
+  \item
+    Jupyter Notebook (.ipynb)
+  \item
+    Quarto-документация (.qmd)
+  \end{itemize}
+\item
+  Обеспечена воспроизводимость исследований
+\end{itemize}
+\end{frame}
+
+\section{Выводы}\label{ux432ux44bux432ux43eux434ux44b}
+
+\begin{frame}{Выводы}
+\phantomsection\label{ux432ux44bux432ux43eux434ux44b-1}
+\begin{itemize}[<+->]
+\tightlist
+\item
+  Реализованы две классические модели: SIR и Лотки-Вольтерры
+\item
+  Проведён анализ динамики систем с визуализацией результатов
+\item
+  Код оформлен в литературном стиле с использованием Literate.jl
+\item
+  Сгенерированы Jupyter Notebook и Quarto-документация
+\item
+  Все поставленные задачи выполнены
+\item
+  Полученные результаты полностью соответствуют теоретическим
+  предсказаниям
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Итоговый слайд}
+\phantomsection\label{ux438ux442ux43eux433ux43eux432ux44bux439-ux441ux43bux430ux439ux434}
+\begin{itemize}[<+->]
+\tightlist
+\item
+  Моделирование --- мощный инструмент исследования биологических и
+  эпидемиологических процессов
+\item
+  Julia и DrWatson обеспечивают воспроизводимость научных исследований
+\item
+  Литературное программирование улучшает документирование и понимание
+  кода
+\item
+  Полученные навыки могут быть применены для моделирования других
+  процессов
+\end{itemize}
+\end{frame}
+
+
+
+
+\end{document}
