@@ -5,10 +5,8 @@ project:
 standalone: true
 self-contained: true
 
-## Julia support
-engine: julia
-julia:
-  exeflags: ["--project=../project"]
+## Временно отключаем Julia engine
+engine: markdown  # было julia
 
 ## Generic options
 lang: ru-RU
@@ -16,28 +14,25 @@ number-sections: true
 toc: true
 toc-title: "Содержание"
 toc-depth: 2
+
 ## Crossref customization
 crossref:
   lof-title: "Список иллюстраций"
   lot-title: "Список таблиц"
   lol-title: "Листинги"
+
 ## Bibliography
 bibliography:
   - bib/cite.bib
 csl: _resources/csl/gost-r-7-0-5-2008-numeric.csl
+
 ## Formats
 format:
-  ### Docx output format
   docx:
     toc: true
     number-sections: true
     toc-depth: 2
-  ### Pdf output format
   pdf:
-    # pdf-engine: xelatex
-    ### minted support
-    # filters:
-    #   - minted-quarto
     pdf-engine: lualatex
     mainfont: "IBM Plex Sans"
     monofont: "IBM Plex Mono"
@@ -45,24 +40,20 @@ format:
     number-sections: true
     colorlinks: false
     toc-depth: 2
-    lof: true # List of figures
-    lot: true # List of tables
-    #### Document
+    lof: true
+    lot: true
     documentclass: scrreprt
     papersize: a4
     fontsize: 12pt
     linestretch: 1.5
-    #### Language
     babel-lang: russian
     babel-otherlangs: english
-    #### Biblatex
     cite-method: biblatex
     biblio-style: gost-numeric
     biblatexoptions:
       - backend=biber
       - langhook=extras
       - autolang=other*
-    #### Misc options
     csquotes: true
     indent: true
     include-in-header:

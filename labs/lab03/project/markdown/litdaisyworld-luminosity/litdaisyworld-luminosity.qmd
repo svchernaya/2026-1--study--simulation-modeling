@@ -2,12 +2,8 @@
 
 **Цель:** Исследовать динамику численности черных и белых маргариток, а также
 изменение температуры планеты при сценарии :ramp (изменяющаяся солнечная светимость).
-Модель демонстрирует механизм отрицательной обратной связи: белые маргаритки
-(высокое альбедо) охлаждают планету при высокой светимости, черные (низкое альбедо)
-нагревают при низкой светимости, поддерживая стабильную температуру.
 
 ## Инициализация проекта
-Активируем окружение проекта DrWatson и загружаем необходимые библиотеки
 
 ```{julia}
 using DrWatson
@@ -18,28 +14,15 @@ using Plots
 ```
 
 ## Подключение модуля с моделью
-В файле `src/daisyworld.jl` содержится определение самой модели:
-- Типы агентов и их свойства (цвет, возраст, альбедо).
-- Функции для инициализации мира, правила роста и размножения.
-- Параметры модели (солнечная постоянная, альбедо маргариток, диффузия тепла и так далее)
-- Сценарии изменения солнечной активности (:default, :ramp, :change)
 
 ```{julia}
 include(srcdir("daisyworld.jl"))
-```
 
-Используем CairoMakie для расширенной визуализации (тепловые карты, сложные графики)
-
-```{julia}
 using CairoMakie
+using StatsBase
 ```
 
-## Определение агрегирующих функций для сбора данных
-
-Для отслеживания динамики популяции определим функции, которые подсчитывают количество черных и белых маргариток в модели
-- `black(a)`: возвращает `true`, если маргаритка черная
-- `white(a)`: возвращает `true`, если маргаритка белая
-- `adata`: список агрегаций, которые будут собираться на каждом шаге (функция и применяемая к ней операция)
+## Определение агрегирующих функций
 
 ```{julia}
 black(a) = a.breed == :black
@@ -47,79 +30,57 @@ white(a) = a.breed == :white
 adata = [(black, count), (white, count)]
 ```
 
-## Инициализация модели
-
-Создаем модель Daisyworld с начальной солнечной светимостью 1.0 и сценарием :ramp.
-Сценарий :ramp означает изменение светимости во времени:
-- шаги 200-400: светимость увеличивается
-- шаги 500-750: светимость уменьшается
-Остальные параметры по умолчанию:
-- griddims = (30, 30) — размер мира
-- max_age = 25 — максимальный возраст маргаритки
-- init_white = 0.2, init_black = 0.2 — начальное покрытие 20% белыми и 20% черными
-- albedo_white = 0.75, albedo_black = 0.25 — альбедо видов
+## Инициализация модели со сценарием :ramp
 
 ```{julia}
-model = daisyworld(solar_luminosity = 1.0, scenario = :ramp)
+model = daisyworld(solar_luminosity=1.0, scenario=:ramp)
 ```
 
-Определяем функцию для вычисления средней температуры планеты
+## Определение метаданных
 
 ```{julia}
 temperature(model) = StatsBase.mean(model.temperature)
-```
-
-Список метаданных модели для сбора на каждом шаге: температура и светимость
-
-```{julia}
 mdata = [temperature, :solar_luminosity]
 ```
 
-Запускаем модель на 1000 шагов, собираем данные о численности (adata) и метаданных (mdata)
+## Запуск симуляции
 
 ```{julia}
-agent_df, model_df = run!(model, 1000; adata = adata, mdata = mdata)
+agent_df, model_df = run!(model, 1000; adata=adata, mdata=mdata)
 ```
 
-Создаем фигуру с тремя вертикальными графиками
+## Визуализация
 
 ```{julia}
-figure = CairoMakie.Figure(size = (600, 600));
+figure = CairoMakie.Figure(size=(600, 600))
 ```
 
-Верхний график: динамика численности черных и белых маргариток
+График численности
 
 ```{julia}
-ax1 = figure[1, 1] = Axis(figure, ylabel = "daisy count")
-blackl = lines!(ax1, agent_df[!, :time], agent_df[!, :count_black], color = :red)
-whitel = lines!(ax1, agent_df[!, :time], agent_df[!, :count_white], color = :blue)
+ax1 = figure[1, 1] = Axis(figure, ylabel="daisy count")
+blackl = lines!(ax1, agent_df[!, :time], agent_df[!, :count_black], color=:red)
+whitel = lines!(ax1, agent_df[!, :time], agent_df[!, :count_white], color=:blue)
 figure[1, 2] = Legend(figure, [blackl, whitel], ["black", "white"])
 ```
 
-Средний график: динамика средней температуры планеты
+График температуры
 
 ```{julia}
-ax2 = figure[2, 1] = Axis(figure, ylabel = "temperature")
+ax2 = figure[2, 1] = Axis(figure, ylabel="temperature")
 ```
 
-Нижний график: динамика солнечной светимости
+График светимости
 
 ```{julia}
-ax3 = figure[3, 1] = Axis(figure, xlabel = "tick", ylabel = "luminosity")
-lines!(ax2, model_df[!, :time], model_df[!, :temperature], color = :red)
-lines!(ax3, model_df[!, :time], model_df[!, :solar_luminosity], color = :red)
-```
+ax3 = figure[3, 1] = Axis(figure, xlabel="tick", ylabel="luminosity")
 
-Скрываем метки времени на верхних графиках для компактности
+lines!(ax2, model_df[!, :time], model_df[!, :temperature], color=:red)
+lines!(ax3, model_df[!, :time], model_df[!, :solar_luminosity], color=:red)
 
-```{julia}
 for ax in (ax1, ax2); ax.xticklabelsvisible = false; end
 figure
-```
 
-Сохраняем график в папку plots/
-
-```{julia}
 save(plotsdir("daisy_luminosity.png"), figure)
 ```
 
