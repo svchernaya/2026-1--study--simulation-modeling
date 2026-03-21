@@ -1,0 +1,61 @@
+# # Моделирование Daisyworld в агентном подходе
+# 
+# **Цель:** Визуализировать и проанализировать динамику модели Daisyworld - классической агентной модели, которая демонстрирует гипотезу Геи. В этой модели рост и распространение
+# маргариток влияет на температуру среды. 
+
+# ## Инициализация проекта
+# Активируем окружение проекта DrWatson и загружаем необходимые библиотеки
+using DrWatson
+@quickactivate "project"
+using Agents
+using DataFrames
+using Plots
+
+# ## Подключение модуля с моделью
+# В файле `src/daisyworld.jl` содержится определение самой модели:
+# - Типы агентов и их свойства (цвет, температура, энергия).
+# - Функции для инициализации мира, правила роста и размножения.
+# - Параметры модели (солнечная постоянная, альбедо маргариток и так далее)
+
+include(srcdir("daisyworld.jl"))
+
+# Используем CairoMakie для расширения визуализации
+using CairoMakie
+
+# ## Инициализация и первый запуск модели
+# Создаем экземпляр модели с параметрами по умолчанию
+
+model = daisyworld()
+
+# ## Настройка визуализации
+# Определяем, как будут отображаться агенты и среда.
+# - `agent_color`: цвет маргаритки зависит от ее породы (черная или белая).
+# - `agent_size1: размер маргаритки
+# - `agent_marker`: используемый символ для маргариток
+# - `heatarray`: отображение температуры в виде тепловой карты
+# - `heatkwargs`: цветовая шкала температуры
+
+daisycolor(a::Daisy) = a.breed
+
+plotkwargs = (
+    agent_color=daisycolor, agent_size = 20, agent_marker = '✿',
+    heatarray = :temperature,
+    heatkwargs = (colorrange = (-20, 60),),
+)
+
+# Визуализация начального состояния модели (шаг 0)
+plt1, _ = abmplot(model; plotkwargs...)
+
+# Запуск и визуализация модели на 5 шаге
+step!(model, 5)
+plt2, _ = abmplot(model; heatarray = model.temperature, plotkwargs...)
+
+# Запуск и визуализация модели на 40 шаге. После этого шага система достигает более устойчивого состояния
+step!(model, 40)
+plt3, _ = abmplot(model; heatarray = model.temperature, plotkwargs...)
+
+# Сохранение графиков в папку `plots/`
+save(plotsdir("daisy_step001.png"), plt1)
+save(plotsdir("daisy_step005.png"), plt2)
+save(plotsdir("daisy_step040.png"), plt3)
+

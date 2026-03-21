@@ -1,0 +1,95 @@
+# # Параметрическое исследование модели Дейзиworld: визуализация пространственного распределения
+#
+# **Цель:** Исследовать влияние ключевых параметров модели (max_age и init_white) на
+# пространственное распределение маргариток и температуру планеты. Для каждой комбинации
+# параметров сохраняются снимки состояния мира на разных этапах моделирования.
+
+# ## Инициализация проекта
+# Активируем окружение проекта DrWatson и загружаем необходимые библиотеки
+using DrWatson
+@quickactivate "project"
+using Agents
+using DataFrames
+using Plots
+using CairoMakie
+
+# ## Подключение модуля с моделью
+# В файле `src/daisyworld.jl` содержится определение самой модели:
+# - Типы агентов и их свойства (цвет, возраст, альбедо)
+# - Функции для инициализации мира, правила роста и размножения
+# - Параметры модели (солнечная постоянная, альбедо маргариток, диффузия тепла)
+
+include(srcdir("daisyworld.jl"))
+
+# ## Параметры эксперимента
+# Определяем словарь параметров. Векторные параметры (max_age, init_white) будут перебираться,
+# скалярные остаются фиксированными.
+# - max_age: максимальный возраст маргариток [25, 40]
+# - init_white: начальная доля белых маргариток [0.2, 0.8]
+# - init_black: начальная доля черных маргариток (фиксировано 0.2)
+# - albedo_white/black: альбедо белых (0.75) и черных (0.25)
+# - scenario: :default — без изменения солнечной активности
+
+param_dict = Dict(
+    :griddims => (30, 30),
+    :max_age => [25, 40],
+    :init_white => [0.2, 0.8],
+    :init_black => 0.2,
+    :albedo_white => 0.75,
+    :albedo_black => 0.25,
+    :surface_albedo => 0.4,
+    :solar_change => 0.005,
+    :solar_luminosity => 1.0,
+    :scenario => :default,
+    :seed => 165,
+)
+
+# ## Генерация всех комбинаций параметров
+# Функция dict_list создает список всех возможных комбинаций параметров.
+# В данном случае: 2 значения max_age × 2 значения init_white = 4 комбинации.
+
+params_list = dict_list(param_dict)
+
+# ## Цикл по всем комбинациям параметров
+# Для каждой комбинации создаем модель, визуализируем состояние на разных шагах
+# и сохраняем графики.
+
+for params in params_list
+
+    # Создание модели с текущими параметрами
+    model = daisyworld(;params...)
+
+    # Настройка визуализации: цвет маргаритки зависит от породы, размер 20,
+    # символ цветка ✿, температура отображается тепловой картой
+    daisycolor(a::Daisy) = a.breed
+
+    plotkwargs = (
+        agent_color=daisycolor,
+        agent_size = 20,
+        agent_marker = '✿',
+        heatarray = :temperature,
+        heatkwargs = (colorrange = (-20, 60),),
+    )
+    
+    # Визуализация начального состояния (шаг 0)
+    plt1, _ = abmplot(model; plotkwargs...)
+
+    # Запуск на 5 шагов и визуализация
+    step!(model, 5)
+    plt2, _ = abmplot(model; heatarray = model.temperature, plotkwargs...)
+
+    # Запуск еще на 40 шагов (всего 45) и визуализация
+    step!(model, 40)
+    plt3, _ = abmplot(model; heatarray = model.temperature, plotkwargs...)
+
+    # Формирование уникальных имен файлов на основе параметров
+    plt1_name = savename("daisyworld",params) * "_step01" * ".png"
+    plt2_name = savename("daisyworld",params) * "_step04" * ".png"
+    plt3_name = savename("daisyworld",params) * "_step40" * ".png"
+
+    # Сохранение графиков в папку plots/
+    save(plotsdir(plt1_name), plt1)
+    save(plotsdir(plt2_name), plt2)
+    save(plotsdir(plt3_name), plt3)
+
+end
