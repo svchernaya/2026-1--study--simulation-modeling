@@ -6,9 +6,9 @@ standalone: true
 self-contained: true
 
 ## Julia support
-# engine: julia
-# julia:
-#   exeflags: ["--project=../project"]
+engine: julia
+julia:
+  exeflags: ["--project=../project"]
 
 ## Generic options
 lang: ru-RU
@@ -38,6 +38,9 @@ format:
     ### minted support
     # filters:
     #   - minted-quarto
+    pdf-engine: lualatex
+    mainfont: "IBM Plex Sans"
+    monofont: "IBM Plex Mono"
     toc: true
     number-sections: true
     colorlinks: false
