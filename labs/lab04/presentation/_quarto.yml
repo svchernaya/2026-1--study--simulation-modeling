@@ -5,19 +5,25 @@ project:
 standalone: true
 self-contained: true
 slide-level: 2
+
+## Generic options
 lang: ru-RU
 crossref:
   lof-title: Список иллюстраций
   lot-title: Список таблиц
   lol-title: Листинги
-format: # Formats
-  beamer: # Pdf output format
+## Formats
+format:
+  ### Pdf output format
+  beamer:
+    pdf-engine: lualatex
+    mainfont: "IBM Plex Sans"
+    monofont: "IBM Plex Mono"
     toc: true
     toc-title: Содержание
-    number-sections: false
-    number-depth: 1
+    number-sections: true
     colorlinks: false
-    toc-depth: 1
+    toc-depth: 2
     aspectratio: 169
     section-titles: true
     incremental: true
@@ -26,9 +32,11 @@ format: # Formats
     indent: true
     include-in-header:
       - file: _resources/tex/beamer.tex
+    #### Language
     babel-lang: russian
     babel-otherlangs: english
-  revealjs: # Html output
+  ### Html output
+  revealjs:
     transition: slide
     margin: 0.2
     smaller: true

@@ -1,0 +1,20 @@
+project:
+  title: "report"
+  output-dir: "_output"
+
+format:
+  pdf:
+    documentclass: scrartcl
+    papersize: a4
+    fontsize: 12pt
+    linestretch: 1.5
+    lang: ru
+    mainfont: "Liberation Serif"
+    sansfont: "Liberation Sans"
+    monofont: "Liberation Mono"
+    include-in-header:
+      text: |
+        \usepackage{fontspec}
+        \setmainfont{Liberation Serif}
+        \setsansfont{Liberation Sans}
+        \setmonofont{Liberation Mono}

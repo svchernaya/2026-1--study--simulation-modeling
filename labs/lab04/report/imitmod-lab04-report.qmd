@@ -308,6 +308,27 @@ $$ R_0 = \frac{\beta}{\gamma} = \beta \cdot \text{infection\_period} $$
 
 Использую многокритериальную оптимизацию для поиска параметров, минимизирующих число умерших при ограничении пика заболеваемости ниже 30%. Варьирую β_und (0.1-1.0), detection_time (3-14 дней), death_rate (0.01-0.1). Добавляю штраф за превышение пика выше 30%. Результаты оптимизации сохраняю для анализа компромиссных решений.
 
+Анализ результатов и код из файлов предоставлен ниже.
+
+## Код и анализ litsir_run_basic.jl
+
+{{< include ../project/markdown/litsir_run_basic/litsir_run_basic.qmd >}}
+
+## Код и анализ litsir_scan_beta.jl
+
+{{< include ../project/markdown/litsir_scan_beta/litsir_scan_beta.qmd >}}
+
+## Код и анализ litsir_migration_effect.jl
+
+{{< include ../project/markdown/litsir_migration_effect/litsir_migration_effect.qmd >}}
+
+## Код и анализ litsir_optimize_parameters.jl
+
+{{< include ../project/markdown/litsir_optimize_parameters/litsir_optimize_parameters.qmd >}}
+
+## Код и анализ dop_task.jl
+
+{{< include ../project/markdown/dop_task/dop_task.qmd >}}
 
 # Вывод
 
