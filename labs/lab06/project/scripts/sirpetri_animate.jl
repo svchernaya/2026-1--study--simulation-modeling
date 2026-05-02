@@ -2,7 +2,11 @@ using DrWatson
 @quickactivate "project"
 include(srcdir("SIRPetri.jl"))
 using .SIRPetri
-using DataFrames, CSV, Plots
+using Plots
+using DataFrames   # ← ЭТО ДОБАВИТЬ! DataFrame нужен для работы с df.S, df.I, df.R
+
+# Отключаем графическое окно
+ENV["GKSwstype"] = "nul"
 
 # Диапазон β
 β_range = 0.1:0.05:0.8
