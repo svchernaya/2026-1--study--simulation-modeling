@@ -23,7 +23,7 @@ crossref:
   lol-title: "Листинги"
 ## Bibliography
 bibliography:
-  - bib/cite.bib
+  - bib/refs.bib
 csl: _resources/csl/gost-r-7-0-5-2008-numeric.csl
 ## Formats
 format:
